@@ -7,7 +7,7 @@ def readme():
         return f.read()
 
 
-setup(name='wrktoolbox',
+setup(name='wrktools',
       version=version,
       description='A tool to run wrk and wrk2 benchmarks and store their output.',
       long_description=readme(),
