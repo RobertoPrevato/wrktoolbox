@@ -1,4 +1,4 @@
-[![Build status](https://dev.azure.com/robertoprevato/wrktoolbox/_apis/build/status/wrktoolbox-CI)](https://dev.azure.com/robertoprevato/wrktoolbox/_build/latest?definitionId=16) [![pypi](https://img.shields.io/pypi/v/wrktoolbox.svg?color=blue)](https://pypi.org/project/wrktoolbox/) [![Test coverage](https://img.shields.io/azure-devops/coverage/robertoprevato/wrktoolbox/16.svg)](https://robertoprevato.visualstudio.com/wrktoolbox/_build?definitionId=16)
+[![Build status](https://dev.azure.com/robertoprevato/wrktoolbox/_apis/build/status/wrktoolbox-CI)](https://dev.azure.com/robertoprevato/wrktoolbox/_build/latest?definitionId=19) [![pypi](https://img.shields.io/pypi/v/wrktoolbox.svg?color=blue)](https://pypi.org/project/wrktoolbox/) [![Test coverage](https://img.shields.io/azure-devops/coverage/robertoprevato/wrktoolbox/19.svg)](https://robertoprevato.visualstudio.com/wrktoolbox/_build?definitionId=19)
 
 # wrktoolbox
 A tool to run wrk and wrk2 benchmarks, store their output, and generate reports.
