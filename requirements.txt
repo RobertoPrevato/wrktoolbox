@@ -1,0 +1,7 @@
+rocore
+roconfiguration
+pyparsing
+click
+pytest
+pytest-cov
+certifi

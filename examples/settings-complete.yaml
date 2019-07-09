@@ -1,0 +1,47 @@
+scripts_folder: wrk_scripts  # the folder where Lua scripts for wrk are stored
+
+think_time: 2  # delay between each benchmark, in seconds
+
+# plugins can be used to alter the configuration of each benchmark, for example to obtain
+# and use an access token for endpoints that require authentication
+# plugins are regular Python modules
+plugins:
+  - wrktoolbox.plugins.clientip
+  - plugins.plugin1
+  - plugins.plugin2
+
+# the array of benchmarks contains the configuration of benchmarks to run
+benchmarks:
+  - test_id: alive  # user assigned id for this test
+    url: https://this-is-an-example.it/api/alive
+    threads: 10  # threads count
+    concurrency: 100  # concurrent users
+    duration: 30  # test duration in seconds
+    app_variant: wrk  # wrk, or wrk2 - the application must be accessible from shell
+    repeat: 2  # to number of times this benchmark should be run
+  - test_id: about
+    url: https://this-is-an-example.it/about
+    threads: 10
+    concurrency: 100
+    duration: 30
+    app_variant: wrk2
+    response_per_seconds: 10  # rate parameter used in wrk2
+    repeat: 0  # to disable a benchmark, set repeat to 0
+  - test_id: upload_something
+    url: https://this-is-an-example.it/upload
+    threads: 10
+    concurrency: 100
+    duration: 30
+    script:  upload-001.lua
+    app_variant: wrk
+    goals:  # performance goals can be specified for single benchmarks, in this case they are run together with common goals
+      - type: avg-latency
+        limit: 500
+
+stores:
+  - json
+  - foo
+
+goals:
+  - 'no-errors'
+  - type: 'requests-per-second'

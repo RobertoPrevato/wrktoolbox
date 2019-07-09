@@ -1,0 +1,13 @@
+# importers read results from previous benchmarks
+importers:
+  - type: json
+    root_folder: data/results
+
+# reports generation supports plugins, like benchmarks logic
+#plugins:
+#  - plugins.plugin1
+#  - plugins.plugin2
+
+# writers write reports
+writers:
+  - type: log

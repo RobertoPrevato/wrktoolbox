@@ -1,0 +1,12 @@
+# the array of benchmarks contains the configuration of benchmarks to run
+benchmarks:
+  - url: http://localhost:44555/
+    threads: 10  # threads count
+    concurrency: 100  # concurrent users
+    duration: 30  # test duration in seconds
+
+# the type of stores to use, to collect benchmark results
+# it is possible to define custom stores, using plugins;
+# for example to store results in a database, or send them to an API
+stores:
+  - json
