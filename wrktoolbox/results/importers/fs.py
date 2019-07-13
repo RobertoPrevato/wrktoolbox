@@ -4,7 +4,7 @@ import fnmatch
 from base64 import b64decode
 from abc import abstractmethod
 from pathlib import Path
-from typing import Generator
+from typing import Generator, Optional, Sequence
 from rocore.exceptions import InvalidArgument
 from rocore.typesutils.dateutils import parse_datetime
 from wrktoolbox.benchmarks import BenchmarkSuite, PerformanceGoalResult
@@ -14,10 +14,13 @@ from wrktoolbox.results import ResultsImporter, SuiteReport, BenchmarkOutput
 class FileSystemResultsImporter(ResultsImporter):
     """Base class for importers that can read results from file system"""
 
-    def __init__(self, root_folder: str):
+    def __init__(self,
+                 root_folder: str,
+                 filter_urls: Optional[Sequence[str]] = None):
         self._root_path = None
         self.root_path = root_folder
         self._ext_glob_pattern = '*' + self.get_file_extension()
+        self.filter_urls = list(filter_urls) if filter_urls else None
 
     @property
     def root_path(self) -> Path:
@@ -67,7 +70,12 @@ class FileSystemResultsImporter(ResultsImporter):
                 yield self._load_suite(item)
         return
 
-    def _results_from_dir(self, folder_path: Path, report: SuiteReport) -> Generator[SuiteReport, None, None]:
+    def _should_import(self, item: BenchmarkOutput) -> bool:
+        if self.filter_urls:
+            return any(fnmatch.fnmatch(item.url, pattern) for pattern in self.filter_urls)
+        return True
+
+    def _results_from_dir(self, folder_path: Path, report: SuiteReport) -> Generator[BenchmarkOutput, None, None]:
         benchmarks_ids = report.suite.benchmarks_ids
 
         for item in folder_path.iterdir():
@@ -78,7 +86,9 @@ class FileSystemResultsImporter(ResultsImporter):
                 file_name = str(item)
                 if fnmatch.fnmatch(file_name, self._ext_glob_pattern) \
                         and any(benchmark_id in file_name for benchmark_id in benchmarks_ids):
-                    yield self._load_output(item)
+                    result = self._load_output(item)
+                    if self._should_import(result):
+                        yield result
             else:
                 yield from self._results_from_dir(item, report)
 
